@@ -406,7 +406,7 @@ frappe.ui.form.ControlLink = class ControlLink extends frappe.ui.form.ControlDat
 	}
 
 	merge_duplicates(results) {
-		// in case of result like this
+		// in case of result like this (wtt)
 		// [{value: 'Manufacturer 1', 'description': 'mobile part 1'},
 		// 	{value: 'Manufacturer 1', 'description': 'mobile part 2'}]
 		// suggestion list has two items with same value (docname) & description

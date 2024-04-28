@@ -94,14 +94,13 @@
    "fieldtype": "Column Break"
   }
  ],
- "in_create": 1,
  "links": [
   {
    "link_doctype": "Scheduled Job Log",
    "link_fieldname": "scheduled_job_type"
   }
  ],
- "modified": "2023-10-14 11:26:05.005930",
+ "modified": "2024-03-08 10:27:05.477470",
  "modified_by": "Administrator",
  "module": "Core",
  "name": "Scheduled Job Type",

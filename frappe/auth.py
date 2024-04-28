@@ -30,22 +30,22 @@ MAX_PASSWORD_SIZE = 512
 
 class HTTPRequest:
 	def __init__(self):
-		# set frappe.local.request_ip
+		# 设置 frappe.local.request_ip
 		self.set_request_ip()
 
-		# load cookies
+		# 加载 cookies
 		self.set_cookies()
 
-		# login and start/resume user session
+		# 登录并开始/恢复用户会话
 		self.set_session()
 
-		# set request language
+		# 设置请求语言
 		self.set_lang()
 
-		# match csrf token from current session
+		# 匹配当前会话的 csrf token
 		self.validate_csrf_token()
 
-		# write out latest cookies
+		# 写入最新 cookies
 		frappe.local.cookie_manager.init_cookies()
 
 	@property
@@ -58,24 +58,32 @@ class HTTPRequest:
 		return self._domain
 
 	def set_request_ip(self):
+		# 如果 frappe.get_request_header("X-Forwarded-For")存在，则设置 frappe.local.request_ip
 		if frappe.get_request_header("X-Forwarded-For"):
 			frappe.local.request_ip = (
 				frappe.get_request_header("X-Forwarded-For").split(",", 1)[0]
 			).strip()
 
+		# 如果 frappe.get_request_header("REMOTE_ADDR")存在，则设置 frappe.local.request_ip
 		elif frappe.get_request_header("REMOTE_ADDR"):
 			frappe.local.request_ip = frappe.get_request_header("REMOTE_ADDR")
 
+		# 否则设置 frappe.local.request_ip 为 127.0.0.1
 		else:
 			frappe.local.request_ip = "127.0.0.1"
 
 	def set_cookies(self):
+		# 设置 frappe.local.cookie_manager
 		frappe.local.cookie_manager = CookieManager()
 
 	def set_session(self):
+		# 设置 frappe.local.login_manager
 		frappe.local.login_manager = LoginManager()
 
 	def validate_csrf_token(self):
+		# 如果 frappe.request 不存在，或者 frappe.request.method 不是 UNSAFE_HTTP_METHODS 中的方法，
+        # 或者 frappe.conf.ignore_csrf，或者 frappe.session 不存在，或者 saved_token := frappe.session.data.csrf_token 不存在，
+        # 或者 frappe.get_request_header("X-Frappe-CSRF-Token") 或 frappe.form_dict.pop("csrf_token", None) 的值等于 saved_token，则返回
 		if (
 			not frappe.request
 			or frappe.request.method not in UNSAFE_HTTP_METHODS
@@ -87,12 +95,16 @@ class HTTPRequest:
 				== saved_token
 			)
 		):
+            # 无需验证token返回
 			return
 
+		# 禁用 traceback
 		frappe.flags.disable_traceback = True
+		# 抛出异常
 		frappe.throw(_("Invalid Request"), frappe.CSRFTokenError)
 
 	def set_lang(self):
+		# 设置 frappe.local.lang
 		frappe.local.lang = get_language()
 
 

@@ -97,12 +97,13 @@ def is_valid_title(title) -> bool:
 
 
 def get_license_options() -> list[str]:
-	url = "https://api.github.com/licenses"
-	res = requests.get(url=url)
-	if res.status_code == 200:
-		res = res.json()
-		ids = [r.get("spdx_id") for r in res]
-		return [licencse.lower() for licencse in ids]
+	# wtt comment: 现在此请求返回空内容，造成new-app时报错
+	# url = "https://api.g#ithub.com/licenses"
+	# res = requests.get(url=url)
+	# if res.status_code == 200:
+	# 	res = res.json()
+	# 	ids = [r.get("spdx_id") for r in res]
+	# 	return [licencse.lower() for licencse in ids]
 
 	return ["agpl-3.0", "gpl-3.0", "mit", "custom"]
 

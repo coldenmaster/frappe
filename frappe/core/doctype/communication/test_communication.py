@@ -37,6 +37,7 @@ class TestCommunication(FrappeTestCase):
 			"[invalid!email].com",
 		]
 
+		print(valid_email_list)
 		for i, x in enumerate(valid_email_list):
 			with self.subTest(i=i, x=x):
 				self.assertTrue(frappe.utils.parse_addr(x)[1])

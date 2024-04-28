@@ -30,6 +30,8 @@ from frappe.utils.deprecations import deprecation_warning
 from frappe.utils.error import log_error_snapshot
 from frappe.website.serve import get_response
 
+# from bbl_api.api01.iot_api import mqtt_register
+
 _site = None
 _sites_path = os.environ.get("SITES_PATH", ".")
 
@@ -65,8 +67,9 @@ if frappe._tune_gc:
 
 def after_response_wrapper(app):
 	"""Wrap a WSGI application to call after_response hooks after we have responded.
-
-	This is done to reduce response time by deferring expensive tasks."""
+    包装一个WSGI应用程序，以便在我们响应之后调用after_response钩子。
+	This is done to reduce response time by deferring expensive tasks.
+    这样做是为了通过延迟昂贵的任务来减少响应时间。"""
 
 	@functools.wraps(app)
 	def application(environ, start_response):
@@ -87,11 +90,12 @@ def after_response_wrapper(app):
 @after_response_wrapper
 @Request.application
 def application(request: Request):
+	print(f"进入 application, {request.path=}")
 	response = None
 
 	try:
 		rollback = True
-
+        # fork时已经初始化过了部分locals，这里根据request设置其它的locals数据
 		init_request(request)
 
 		validate_auth()
@@ -147,6 +151,8 @@ def application(request: Request):
 		log_request(request, response)
 		process_response(response)
 
+	print(f"结束 application, {request.path=}")
+	# print(f"检查frappe:, {vars(frappe)=}")
 	return response
 
 
@@ -158,19 +164,27 @@ def run_after_request_hooks(request, response):
 		frappe.call(after_request_task, response=response, request=request)
 
 
+# 初始化请求
 def init_request(request):
+	# 将请求赋值给frappe.local.request
 	frappe.local.request = request
+	# 创建CallbackManager实例，并赋值给frappe.local.request.after_response
 	frappe.local.request.after_response = CallbackManager()
 
+	# 判断请求是否为Ajax请求
 	frappe.local.is_ajax = frappe.get_request_header("X-Requested-With") == "XMLHttpRequest"
 
+	# 获取site名称，或者获取X-Frappe-Site-Name请求头，或者获取host名称
 	site = _site or request.headers.get("X-Frappe-Site-Name") or get_site_name(request.host)
+	# 初始化site
 	frappe.init(site=site, sites_path=_sites_path, force=True)
 
+	# 如果没有配置数据库，则抛出NotFound异常
 	if not (frappe.local.conf and frappe.local.conf.db_name):
 		# site does not exist
 		raise NotFound
 
+	# 如果处于维护模式，则连接数据库，并判断是否允许在维护模式下读取
 	if frappe.local.conf.maintenance_mode:
 		frappe.connect()
 		if frappe.local.conf.allow_reads_during_maintenance:
@@ -178,18 +192,24 @@ def init_request(request):
 		else:
 			raise frappe.SessionStopped("Session Stopped")
 	else:
+		# 否则，连接数据库
 		frappe.connect(set_admin_as_user=False)
+	# 如果请求的路径以/api/method/upload_file开头，则设置最大内容长度为25M
 	if request.path.startswith("/api/method/upload_file"):
 		from frappe.core.api.file import get_max_file_size
 
 		request.max_content_length = get_max_file_size()
+	# 否则，设置最大内容长度为25M（如果配置文件中没有设置，则使用默认值25M）
 	else:
 		request.max_content_length = cint(frappe.local.conf.get("max_file_size")) or 25 * 1024 * 1024
+	# 创建form_dict
 	make_form_dict(request)
 
+	# 如果不是OPTIONS请求，则连接HTTPRequest
 	if request.method != "OPTIONS":
 		frappe.local.http_request = HTTPRequest()
 
+	# 遍历frappe.get_hooks中的before_request任务，并执行
 	for before_request_task in frappe.get_hooks("before_request"):
 		frappe.call(before_request_task)
 
@@ -454,6 +474,7 @@ def serve(
 	if in_test_env:
 		log.setLevel(logging.ERROR)
 
+	print("启动 run_simple()")
 	run_simple(
 		"0.0.0.0",
 		int(port),
@@ -467,6 +488,8 @@ def serve(
 
 
 def application_with_statics():
+	print("进入 application_with_statics()")
+    
 	global application, _sites_path
 
 	application = SharedDataMiddleware(

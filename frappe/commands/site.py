@@ -488,7 +488,7 @@ def install_app(context, apps, force=False):
 @pass_context
 def list_apps(context, format):
 	"""
-	List apps in site.
+	List apps in site 2.
 	"""
 
 	summary_dict = {}

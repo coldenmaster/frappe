@@ -21,10 +21,12 @@ def pass_context(f):
 	@wraps(f)
 	def _func(ctx, *args, **kwargs):
 		profile = ctx.obj["profile"]
+		# profile = True
 		if profile:
 			pr = cProfile.Profile()
 			pr.enable()
 
+		print(f"打印 @pass_context: {f=} {ctx.obj=}")
 		try:
 			ret = f(frappe._dict(ctx.obj), *args, **kwargs)
 		except frappe.exceptions.SiteNotSpecifiedError as e:
@@ -41,10 +43,13 @@ def pass_context(f):
 			ps = pstats.Stats(pr, stream=s).sort_stats("cumtime", "tottime", "ncalls")
 			ps.print_stats()
 
+			lines = s.getvalue().splitlines()
+			print(f'{len(lines)=}')
 			# print the top-100
-			for line in s.getvalue().splitlines()[:100]:
+			for line in lines[:100]:
 				print(line)
-
+			# for line in s.getvalue().splitlines()[:100]:
+			# 	print(line)
 		return ret
 
 	return click.pass_context(_func)

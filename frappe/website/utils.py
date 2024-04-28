@@ -21,6 +21,8 @@ from frappe.utils import (
 	md_to_html,
 )
 
+from bbl_api.utils import print_blue
+
 FRONTMATTER_PATTERN = re.compile(r"^\s*(?:---|\+\+\+)(.*?)(?:---|\+\+\+)\s*(.+)$", re.S | re.M)
 H1_TAG_PATTERN = re.compile("<h1>([^<]*)")
 IMAGE_TAG_PATTERN = re.compile(r"""<img[^>]*src\s?=\s?['"]([^'"]*)['"]""")
@@ -161,6 +163,7 @@ def get_home_page_via_hooks():
 	if home_page:
 		home_page = home_page.strip("/")
 
+	print_blue(f"home_page:{home_page}")
 	return home_page
 
 

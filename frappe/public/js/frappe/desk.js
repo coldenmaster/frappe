@@ -13,6 +13,8 @@ frappe.start_app = function () {
 };
 
 $(document).ready(function () {
+    // frappe.msgprint("document ready")
+    console.log("document ready")
 	if (!frappe.utils.supportsES6) {
 		frappe.msgprint({
 			indicator: "red",
@@ -248,6 +250,7 @@ frappe.Application = class Application {
 		d.show();
 	}
 	load_bootinfo() {
+        console.log("frappe.boot", (frappe.boot));
 		if (frappe.boot) {
 			this.setup_workspaces();
 			frappe.model.sync(frappe.boot.docs);

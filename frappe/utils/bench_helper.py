@@ -15,6 +15,7 @@ click.disable_unicode_literals_warning = True
 
 
 def main():
+	# click.echo(f"trace bench_helper.py main() 1")  # 不能输出json.load报错(因为json解析了程序的输出)
 	commands = get_app_groups()
 	commands.update({"get-frappe-commands": get_frappe_commands, "get-frappe-help": get_frappe_help})
 	click.Group(commands=commands)(prog_name="bench")
@@ -94,7 +95,7 @@ def get_frappe_commands():
 		app_commands = get_app_commands(app)
 		if app_commands:
 			commands.extend(list(app_commands))
-
+    
 	print(json.dumps(commands))
 
 
@@ -106,8 +107,9 @@ def get_frappe_help():
 def get_apps():
 	return frappe.get_all_apps(with_internal_apps=False, sites_path=".")
 
-
 if __name__ == "__main__":
+	# print(f"trace bench_helper.py main() 0")  # 不能输出jsonload报错
+	
 	if not frappe._dev_server:
 		warnings.simplefilter("ignore")
 

@@ -109,7 +109,6 @@
    "options": "Gender"
   },
   {
-   "bold": 1,
    "fieldname": "phone",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -199,8 +198,10 @@
    "options": "Contact Phone"
   },
   {
+   "bold": 1,
    "fieldname": "mobile_no",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Mobile No",
    "options": "Phone",
    "read_only": 1
@@ -257,11 +258,10 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-08 15:52:37.525003",
+ "modified": "2024-02-22 14:08:08.239279",
  "modified_by": "Administrator",
  "module": "Contacts",
  "name": "Contact",
- "name_case": "Title Case",
  "naming_rule": "By script",
  "owner": "Administrator",
  "permissions": [

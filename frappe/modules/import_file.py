@@ -124,7 +124,10 @@ def import_file_by_path(
 
 		for doc in docs:
 			# modified timestamp in db, none if doctype's first import
+			# print(f"doc:{doc}")
+			# print(f"{doc['doctype']} - {doc['name']}")
 			db_modified_timestamp = frappe.db.get_value(doc["doctype"], doc["name"], "modified")
+
 			is_db_timestamp_latest = db_modified_timestamp and (
 				get_datetime(doc.get("modified")) <= get_datetime(db_modified_timestamp)
 			)

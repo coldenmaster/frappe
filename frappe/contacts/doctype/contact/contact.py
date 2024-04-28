@@ -47,6 +47,7 @@ class Contact(Document):
 		unsubscribed: DF.Check
 		user: DF.Link | None
 	# end: auto-generated types
+
 	def autoname(self):
 		self.name = self._get_full_name()
 

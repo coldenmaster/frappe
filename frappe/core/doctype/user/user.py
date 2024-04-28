@@ -112,6 +112,7 @@ class User(Document):
 		user_type: DF.Link | None
 		username: DF.Data | None
 	# end: auto-generated types
+
 	__new_password = None
 
 	def __setup__(self):

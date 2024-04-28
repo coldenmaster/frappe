@@ -762,7 +762,7 @@
    "link_fieldname": "user"
   }
  ],
- "modified": "2023-09-18 22:19:49.933972",
+ "modified": "2024-02-23 10:49:24.100402",
  "modified_by": "Administrator",
  "module": "Core",
  "name": "User",
@@ -796,6 +796,7 @@
  "route": "user",
  "search_fields": "full_name",
  "show_name_in_global_search": 1,
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

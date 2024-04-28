@@ -701,6 +701,7 @@ class QueueBuilder:
 		if not queue_data:
 			return []
 
+		# print(f'1 : {queue_separately},2 : {final_recipients},3 : { "" },')
 		if not queue_separately:
 			recipients = list(set(final_recipients + self.final_cc() + self.bcc))
 			q = EmailQueue.new({**queue_data, **{"recipients": recipients}}, ignore_permissions=True)
@@ -711,6 +712,7 @@ class QueueBuilder:
 				# force queueing if there are too many recipients to avoid timeouts
 				send_now = False
 			for recipients in frappe.utils.create_batch(final_recipients, 1000):
+				# print(f'3r : {recipients},')
 				frappe.enqueue(
 					self.send_emails,
 					queue_data=queue_data,

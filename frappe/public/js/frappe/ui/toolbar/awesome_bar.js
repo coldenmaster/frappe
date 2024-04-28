@@ -72,6 +72,7 @@ frappe.search.AwesomeBar = class AwesomeBar {
 
 				me.options = [];
 
+                console.log("input", txt)
 				if (txt && txt.length > 1) {
 					if (last_space !== -1) {
 						me.set_specifics(txt.slice(0, last_space), txt.slice(last_space + 1));
@@ -110,7 +111,7 @@ frappe.search.AwesomeBar = class AwesomeBar {
 			var o = e.originalEvent;
 			var value = o.text.value;
 			var item = awesomplete.get_item(value);
-
+            console.log("awesomeplete select item:", item)
 			if (item.route_options) {
 				frappe.route_options = item.route_options;
 			}

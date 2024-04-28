@@ -61,6 +61,9 @@ def get_controller(doctype):
 
 	:param doctype: DocType name as string.
 	"""
+	# wtt_test notOk
+	# if frappe.local.wtFlag:
+	# 	return import_controller(doctype)
 
 	if frappe.local.dev_server or frappe.flags.in_migrate:
 		return import_controller(doctype)
