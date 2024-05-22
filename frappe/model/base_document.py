@@ -561,8 +561,8 @@ class BaseDocument:
 			if frappe.db.is_primary_key_violation(e):
 				if self.meta.autoname == "hash":
 					# hash collision? try again
-					frappe.flags.retry_count = (frappe.flags.retry_count or 0) + 1
-					if frappe.flags.retry_count > 5 and not frappe.flags.in_test:
+					self.flags.retry_count = (self.flags.retry_count or 0) + 1
+					if self.flags.retry_count > 5:
 						raise
 					self.name = None
 					self.db_insert()
@@ -1005,7 +1005,7 @@ class BaseDocument:
 
 		frappe.throw(
 			_("{0}: '{1}' ({3}) will get truncated, as max characters allowed is {2}").format(
-				reference, _(df.label, context=df.parent), max_length, value
+				reference, frappe.bold(_(df.label, context=df.parent)), max_length, value
 			),
 			frappe.CharacterLengthExceededError,
 			title=_("Value too big"),
