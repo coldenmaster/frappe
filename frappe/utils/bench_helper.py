@@ -11,9 +11,6 @@ import click
 import frappe
 import frappe.utils
 
-from bbl_api.utils import print_blue_pp
-
-
 click.disable_unicode_literals_warning = True
 
 
@@ -116,5 +113,7 @@ if __name__ == "__main__":
 	# print('frappe main')
 	# if not frappe._dev_server:
 	# 	warnings.simplefilter("ignore")
+	if not frappe._dev_server:
+		warnings.simplefilter("ignore")
 
 	main()

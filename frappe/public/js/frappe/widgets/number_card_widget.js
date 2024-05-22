@@ -5,8 +5,6 @@ frappe.provide("frappe.utils");
 export default class NumberCardWidget extends Widget {
 	constructor(opts) {
 		opts.shadow = true;
-        // console.log("NumberCardWidget", opts);
-        // this.uom = opts.uom || "T";
 		super(opts);
 	}
 
