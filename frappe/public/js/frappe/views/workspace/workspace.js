@@ -45,6 +45,7 @@ frappe.views.Workspace = class Workspace {
 			"purple",
 			"light-blue",
 		];
+        console.log("进入 workspace init", this);
 		this.prepare_container();
 		this.setup_pages();
 		this.register_awesomebar_shortcut();
@@ -268,6 +269,7 @@ frappe.views.Workspace = class Workspace {
 	}
 
 	show() {
+        // console.log("进入 workspace show");
 		if (!this.all_pages) {
 			// pages not yet loaded, call again after a bit
 			setTimeout(() => this.show(), 100);
