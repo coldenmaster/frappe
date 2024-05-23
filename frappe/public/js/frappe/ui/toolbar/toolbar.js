@@ -228,8 +228,9 @@ frappe.ui.toolbar.Toolbar = class {
                         }
                     });
                 }
-            })
+            });
             d.show();
+            d.$wrapper.find(".link-btn").css("display", "inline");
         })
     }
 
