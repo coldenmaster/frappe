@@ -18,6 +18,7 @@ function authenticate_with_frappe(socket, next) {
 		next(new Error("Invalid namespace"));
 	}
 
+    // socket.request.headers.origin = socket.request.headers.host;
 	// if (get_hostname(socket.request.headers.host) != get_hostname(socket.request.headers.origin)) {
 	// 	next(new Error("Invalid origin"));
 	// 	return;
@@ -43,6 +44,7 @@ function authenticate_with_frappe(socket, next) {
 		auth_req = auth_req.set("Authorization", authorization_header);
 	}
 
+    // console.log("auth_req:", auth_req);
 	auth_req
 		.type("form")
 		.then((res) => {
