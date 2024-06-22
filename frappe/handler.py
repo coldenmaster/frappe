@@ -84,7 +84,8 @@ def execute_cmd(cmd, from_async=False):
   
 	# print("在handler.execute_cmd中, 执行 method:\n", method)
 	print("在handler.execute_cmd中, 执行cmd: ", cmd)
-	# print(f"frappe.form_dict:\n  {frappe.form_dict}")
+	if (frappe.conf.wt_dev and frappe.form_dict):
+		print(f"frappe.form_dict:\n  {str(frappe.form_dict)[:1000]}")
 	return frappe.call(method, **frappe.form_dict)
 
 

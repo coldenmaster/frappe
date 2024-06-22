@@ -7,6 +7,7 @@ frappe.quick_edit = function (doctype, name) {
 };
 
 frappe.ui.form.make_quick_entry = (doctype, after_insert, init_callback, doc, force) => {
+    console.log("进入 form.make_quick_entry: ",doctype, doc)
 	var trimmed_doctype = doctype.replace(/ /g, "");
 	var controller_name = "QuickEntryForm";
 

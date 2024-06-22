@@ -65,8 +65,6 @@ import "./frappe/utils/file_manager.js";
 import "./frappe/utils/diffview";
 import "./frappe/utils/datatable.js";
 
-import "./frappe/utils/bbl_dialog.js";
-
 import "./frappe/upload.js";
 import "./frappe/ui/tree.js";
 

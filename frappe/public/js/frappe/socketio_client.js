@@ -1,11 +1,13 @@
 import { io } from "socket.io-client";
 
 frappe.provide("frappe.realtime");
+console.log("3 加载 socketio_client.js");
 
 class RealTimeClient {
 	constructor() {
 		this.open_tasks = {};
 		this.open_docs = new Set();
+        this.io = io;
 	}
 
 	on(event, callback) {
@@ -54,10 +56,14 @@ class RealTimeClient {
 			});
 		} else if (window.location.protocol == "http:") {
 			this.socket = io(this.get_host(port), {
+                // transports: ['websocket'],
+                // upgrade: false,
 				withCredentials: true,
 				reconnectionAttempts: 3,
 				autoConnect: !lazy_connect,
 			});
+            console.log("新建连接：io(this.get_host(port)", this.socket);
+
 		}
 
 		if (!this.socket) {
@@ -65,8 +71,23 @@ class RealTimeClient {
 			return;
 		}
 
+        this.socket.on("connect", () => {
+            const transport = this.socket.io.engine.transport.name; // 在大多数情况下, "polling"
+			console.log("socketio 连接类型是：" + transport);
+          
+            this.socket.io.engine.on("upgrade", () => {
+                const upgradedTransport = this.socket.io.engine.transport.name; // 在大多数情况下, "websocket"
+			    console.log("socketio upgradedTransport 连接类型是：" + upgradedTransport);
+            });
+        });
+
 		this.socket.on("msgprint", function (message) {
 			frappe.msgprint(message);
+		});
+
+		this.socket.on("pong", function (message) {
+            console.log("socketio pong 测试显示 message: " + message);
+			frappe.msgprint("pong message: " + message);
 		});
 
 		this.socket.on("progress", function (data) {
@@ -111,7 +132,7 @@ class RealTimeClient {
 
 	get_host(port = 3000) {
 		let host = window.location.origin;
-		if (window.dev_server) {
+		if (window.dev_server || frappe.boot.developer_mode) {
 			let parts = host.split(":");
 			port = frappe.boot.socketio_port || port.toString() || "3000";
 			if (parts.length > 2) {

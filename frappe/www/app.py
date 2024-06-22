@@ -57,6 +57,8 @@ def get_context(context):
 
 	context.update(
 		{
+            # "dev_server": frappe.conf.get("dev_server"),
+            # "dev_server": 1,
 			"no_cache": 1,
 			"build_version": frappe.utils.get_build_version(),
 			"include_js": include_js,

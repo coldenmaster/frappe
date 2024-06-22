@@ -3,6 +3,8 @@ const { Server } = require("socket.io");
 const { get_conf, get_redis_subscriber } = require("../node_utils");
 const conf = get_conf();
 
+console.log("开始加载2： SocketIO server started on port " + conf.socketio_port);
+
 let io = new Server({
 	cors: {
 		// Should be fine since we are ensuring whether hostname and origin are same before adding setting listeners for s socket

@@ -828,7 +828,8 @@ Object.assign(frappe.utils, {
 			if (frappe.boot.user.mute_sounds) {
 				return;
 			}
-
+            
+            name = name || "alert";
 			var audio = $("#sound-" + name)[0];
 			audio.volume = audio.getAttribute("volume");
 			audio.play();
