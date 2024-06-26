@@ -29,7 +29,6 @@ class NotificationLog(Document):
 		read: DF.Check
 		subject: DF.Text | None
 		type: DF.Literal["Mention", "Energy Point", "Assignment", "Share", "Alert"]
-
 	# end: auto-generated types
 	def after_insert(self):
 		frappe.publish_realtime("notification", after_commit=True, user=self.for_user)

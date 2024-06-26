@@ -3,7 +3,7 @@ const { Server } = require("socket.io");
 const { get_conf, get_redis_subscriber } = require("../node_utils");
 const conf = get_conf();
 
-console.log("开始加载2： SocketIO server started on port " + conf.socketio_port);
+console.log("开始加载3： SocketIO server started on port " + conf.socketio_port);
 
 let io = new Server({
 	cors: {
@@ -48,6 +48,9 @@ function on_connection(socket) {
     socket.on("disconnect", (reason) => {
         console.log("SocketIO Client disconnect, cnt:" + (--socketio_conn_cnt), reason);
     });
+    socket.onAny((event, ...args) => {
+        console.log(`  ->from SocketIO Client event: ${event}, args: ${args}`);
+    })
 }
 
 realtime.on("connection", on_connection);
@@ -63,6 +66,7 @@ const subscriber = get_redis_subscriber();
 	await subscriber.connect();
 	subscriber.subscribe("events", (message) => {
 		message = JSON.parse(message);
+        console.log("收到后端 rt_msg:", message)
 		let namespace = "/" + message.namespace;
 		if (message.room) {
 			io.of(namespace).to(message.room).emit(message.event, message.message);

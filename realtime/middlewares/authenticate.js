@@ -9,9 +9,9 @@ function authenticate_with_frappe(socket, next) {
     let namespace = socket.nsp.name;
 	namespace = namespace.slice(1, namespace.length); // remove leading `/`
     
-    console.log("socket.nsp.name:" + socket.nsp.name);
-    console.log("get_site_name(socket):" + get_site_name(socket));
-    console.log("get_hostname(socket.request.headers.host):" + get_hostname(socket.request.headers.host));
+    // console.log("socket.nsp.name:" + socket.nsp.name);
+    // console.log("get_site_name(socket):" + get_site_name(socket));
+    // console.log("get_hostname(socket.request.headers.host):" + get_hostname(socket.request.headers.host));
     console.log("get_hostname(socket.request.headers.origin):" + get_hostname(socket.request.headers.origin));
 	
     if (namespace != get_site_name(socket)) {

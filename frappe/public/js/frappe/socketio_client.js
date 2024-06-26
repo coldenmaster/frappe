@@ -56,14 +56,10 @@ class RealTimeClient {
 			});
 		} else if (window.location.protocol == "http:") {
 			this.socket = io(this.get_host(port), {
-                // transports: ['websocket'],
-                // upgrade: false,
 				withCredentials: true,
-				reconnectionAttempts: 3,
+				// reconnectionAttempts: 100,
 				autoConnect: !lazy_connect,
 			});
-            console.log("新建连接：io(this.get_host(port)", this.socket);
-
 		}
 
 		if (!this.socket) {
@@ -88,6 +84,9 @@ class RealTimeClient {
 		this.socket.on("pong", function (message) {
             console.log("socketio pong 测试显示 message: " + message);
 			frappe.msgprint("pong message: " + message);
+		});
+		this.socket.onAny(function (event, message) {
+            console.log("socketio onAny / event:" + event + " | message: " + message);
 		});
 
 		this.socket.on("progress", function (data) {

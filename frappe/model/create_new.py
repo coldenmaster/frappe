@@ -16,7 +16,7 @@ from frappe.utils import cstr, now_datetime, nowdate, nowtime
 
 
 def get_new_doc(doctype, parent_doc=None, parentfield=None, as_dict=False):
-	print(f"get_new_doc {doctype=}")
+	# print(f"get_new_doc {doctype=}")
 	if doctype not in frappe.local.new_doc_templates:
 		# cache a copy of new doc as it is called
 		# frequently for inserts
