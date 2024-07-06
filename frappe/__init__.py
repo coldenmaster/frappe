@@ -2048,7 +2048,7 @@ def get_all(doctype, *args, **kwargs):
 	        # simple dict filter
 	        frappe.get_all("ToDo", fields=["name", "description"], filters = {"owner":"test@example.com"})
 
-	        # filter as a list of lists
+	        # filter as a list of listsa
 	        frappe.get_all("ToDo", fields=["*"], filters = [["modified", ">", "2014-01-01"]])
 	"""
 	kwargs["ignore_permissions"] = True

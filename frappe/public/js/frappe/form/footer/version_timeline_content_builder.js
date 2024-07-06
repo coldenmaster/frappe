@@ -272,7 +272,7 @@ function get_version_comment(version_doc, text) {
 			}
 			return version_comment;
 		} catch (e) {
-			// pass
+			// pass s's
 		}
 	}
 	return frappe.utils.get_form_link("Version", version_doc.name, true, text);
@@ -291,7 +291,8 @@ function format_content_for_timeline(content) {
 
 function get_user_link(user) {
 	const user_display_text = frappe.user_info(user).fullname || "";
-	return frappe.utils.get_form_link("User", user, true, user_display_text);
+    console.log("wtt 更改颜色 bold")
+	return frappe.utils.get_form_link("User", user, true, user_display_text.bold());
 }
 
 function get_user_message(user, message_self, message_other) {

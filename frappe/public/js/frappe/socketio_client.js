@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 
 frappe.provide("frappe.realtime");
-console.log("3 加载 socketio_client.js");
+console.log("2 加载 socketio_client.js");
 
 class RealTimeClient {
 	constructor() {
@@ -51,19 +51,18 @@ class RealTimeClient {
 			this.socket = io(this.get_host(port), {
 				secure: true,
 				withCredentials: true,
-				reconnectionAttempts: 3,
+				reconnectionAttempts: 5,
 				autoConnect: !lazy_connect,
 			});
 		} else if (window.location.protocol == "http:") {
 			this.socket = io(this.get_host(port), {
 				withCredentials: true,
-				// reconnectionAttempts: 100,
+				reconnectionAttempts: 5,
 				autoConnect: !lazy_connect,
 			});
 		}
 
 		if (!this.socket) {
-			console.log("Unable to connect to " + this.get_host(port));
 			return;
 		}
 

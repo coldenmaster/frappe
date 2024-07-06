@@ -150,7 +150,7 @@ frappe.Application = class Application {
 
 		// REDESIGN-TODO: Fix preview popovers
 		this.link_preview = new frappe.ui.LinkPreview();
-        console.log("dest aplication startup() over",)
+        console.log("desk aplication startup() over",)
 	}
 
 	set_route() {
