@@ -151,7 +151,6 @@ frappe.Application = class Application {
 
 		// REDESIGN-TODO: Fix preview popovers
 		this.link_preview = new frappe.ui.LinkPreview();
-
 		frappe.broadcast.emit("boot", {
 			csrf_token: frappe.csrf_token,
 			user: frappe.session.user,

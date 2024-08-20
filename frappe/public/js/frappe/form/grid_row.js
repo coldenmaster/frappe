@@ -505,6 +505,7 @@ export default class GridRow {
 			if (selectedColumn && !selectedColumn.hidden && show_field(selectedColumn.fieldtype)) {
 				fields.push({
 					label: __(selectedColumn.label, null, this.grid.doctype),
+
 					value: selectedColumn.fieldname,
 					checked: true,
 				});

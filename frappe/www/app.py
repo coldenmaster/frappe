@@ -50,8 +50,15 @@ def get_context(context):
 	if frappe.get_system_settings("enable_telemetry") and os.getenv("FRAPPE_SENTRY_DSN"):
 		include_js.append("sentry.bundle.js")
 
+	""" sounds 去除重复的 """
+	sound_map = { sound["name"]: sound for sound in hooks["sounds"] }
+	sounds = sound_map.values()
+
+
 	context.update(
 		{
+            # "dev_server": frappe.conf.get("dev_server"),
+            # "dev_server": 1,
 			"no_cache": 1,
 			"build_version": frappe.utils.get_build_version(),
 			"include_js": include_js,
@@ -59,7 +66,8 @@ def get_context(context):
 			"include_icons": include_icons,
 			"layout_direction": "rtl" if is_rtl() else "ltr",
 			"lang": frappe.local.lang,
-			"sounds": hooks["sounds"],
+			# "sounds": hooks["sounds"],
+			"sounds": sounds,
 			"boot": boot if context.get("for_mobile") else boot_json,
 			"desk_theme": boot.get("desk_theme") or "Light",
 			"csrf_token": csrf_token,

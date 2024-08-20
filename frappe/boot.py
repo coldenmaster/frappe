@@ -280,6 +280,10 @@ def get_user_info():
 
 	if frappe.session.user == "Administrator" and user_info.Administrator.email:
 		user_info[user_info.Administrator.email] = user_info.Administrator
+		
+	# todo(wtt add)
+	user_list = frappe.get_all("User", filters={ "enabled": 1, "user_type": "System User" }, pluck='name')
+	add_user_info(user_list, user_info)
 
 	return user_info
 

@@ -6,17 +6,23 @@ const { get_conf } = require("../../node_utils");
 const conf = get_conf();
 
 function authenticate_with_frappe(socket, next) {
-	let namespace = socket.nsp.name;
+    let namespace = socket.nsp.name;
 	namespace = namespace.slice(1, namespace.length); // remove leading `/`
-
-	if (namespace != get_site_name(socket)) {
+    
+    // console.log("socket.nsp.name:" + socket.nsp.name);
+    // console.log("get_site_name(socket):" + get_site_name(socket));
+    // console.log("get_hostname(socket.request.headers.host):" + get_hostname(socket.request.headers.host));
+    console.log("get_hostname(socket.request.headers.origin):" + get_hostname(socket.request.headers.origin));
+	
+    if (namespace != get_site_name(socket)) {
 		next(new Error("Invalid namespace"));
 	}
 
-	if (get_hostname(socket.request.headers.host) != get_hostname(socket.request.headers.origin)) {
-		next(new Error("Invalid origin"));
-		return;
-	}
+    // socket.request.headers.origin = socket.request.headers.host;
+	// if (get_hostname(socket.request.headers.host) != get_hostname(socket.request.headers.origin)) {
+	// 	next(new Error("Invalid origin"));
+	// 	return;
+	// }
 
 	if (!socket.request.headers.cookie) {
 		next(new Error("No cookie transmitted."));
@@ -38,6 +44,7 @@ function authenticate_with_frappe(socket, next) {
 		auth_req = auth_req.set("Authorization", authorization_header);
 	}
 
+    // console.log("auth_req:", auth_req);
 	auth_req
 		.type("form")
 		.then((res) => {
