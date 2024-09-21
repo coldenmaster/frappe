@@ -378,7 +378,7 @@ frappe.new_doc = function (doctype, opts, init_callback) {
 		}
 		frappe.model.with_doctype(doctype, function () {
             $.isEmptyObject(frappe.create_routes ) || console.log("creat_new frappe.create_routes[doctype]", frappe.create_routes);
-            log("frappe.create_routes[doctype]", frappe.create_routes[doctype], frappe.route_options);
+            // log("frappe.create_routes[doctype]", frappe.create_routes[doctype], frappe.route_options);
 			if (frappe.create_routes[doctype]) {
 				frappe.set_route(frappe.create_routes[doctype]).then(() => resolve());
 			} else {
